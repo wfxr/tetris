@@ -44,10 +44,19 @@ public:
 
 	static Shape ofBulge() {
 		Shape shape(2, 3);
-		shape.setAll(false);
+		shape.setAll(0);
 		shape.setTopLeftCorner();
 		shape.setTopRightCorner();
 		shape.flip();
+		return shape;
+	}
+
+	static Shape ofL() {
+		Shape shape(3, 2);
+		shape.set(0, 0);
+		shape.set(1, 0);
+		shape.set(2, 0);
+		shape.set(2, 1);
 		return shape;
 	}
 
