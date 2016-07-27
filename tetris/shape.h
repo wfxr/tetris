@@ -1,85 +1,58 @@
 #pragma once
 
 #include <vector>
+#include <memory>
+using std::make_shared;
+using std::shared_ptr;
 using std::vector;
 using std::swap;
 
+class Square;
+class Stick;
+
 class Shape {
 public:
-	Shape(int height, int width) :_height(height), _width(width),
-		_canvas(height, vector<int>(width)) { }
+	using Canvas = vector<vector<int>>;
+public:
+	Shape(int height, int width);
+	int width() const;
+	int height() const;
+	int get(int row, int col) const;
 
-	int width() const { return _width; }
-	int height() const { return _height; }
-	int get(int row, int col) const { return _canvas[row][col]; }
+	void rotate() { nextForm(); }
+	void contrarotate() { prevForm(); }
 
-	void rotate() {
-		vector<vector<int>> new_canvas(width(), vector<int>(height()));
-		for (int r = 0; r < height(); ++r)
-			for (int c = 0; c < width(); ++c)
-				new_canvas[c][r] = _canvas[r][c];
-		swap(_height, _width);
-		_canvas = new_canvas;
+protected:
+	Shape();
+	void setCanvas(shared_ptr<Canvas> canvas);
+	void set(int row, int col);
+	void unset(int row, int col);
+	void setAll(int value = 1);
+	void setTopLeftCorner(int value = 1);
+	void setTopRightCorner(int value = 1);
+	void setTottomLeftCorner(int value = 1);
+	void setTottomRightCorner(int value = 1);
+
+	virtual int getFormCount() { return 1; }
+	virtual shared_ptr<Canvas> currentCanvas() { return _canvas; }
+
+	void updateForm() { setCanvas(currentCanvas()); }
+
+	void nextForm() {
+		++_currentForm;
+		if (_currentForm == getFormCount())
+			_currentForm = 0;
+		updateForm();
 	}
 
-	static Shape ofZ() {
-		Shape shape(2, 3);
-		shape.setAll();
-		shape.unset(1, 0);
-		shape.unset(0, 2);
-		return shape;
+	void prevForm() {
+		--_currentForm;
+		if (_currentForm == -1)
+			_currentForm = getFormCount() - 1;
+		updateForm();
 	}
 
-	static Shape ofSquare() {
-		Shape shape(2, 2);
-		shape.setAll();
-		return shape;
-	}
-
-	static Shape ofStick() {
-		Shape shape(4, 1);
-		shape.setAll();
-		return shape;
-	}
-
-	static Shape ofBulge() {
-		Shape shape(2, 3);
-		shape.setAll(0);
-		shape.setTopLeftCorner();
-		shape.setTopRightCorner();
-		shape.flip();
-		return shape;
-	}
-
-	static Shape ofL() {
-		Shape shape(3, 2);
-		shape.set(0, 0);
-		shape.set(1, 0);
-		shape.set(2, 0);
-		shape.set(2, 1);
-		return shape;
-	}
-
-	void flip() {
-		for (auto& row : _canvas)
-			for (auto& e : row)
-				e = (e == 1) ? 0 : 1;
-	}
+	int _currentForm = 0;
 private:
-	vector<vector<int>> _canvas;
-	int _height;
-	int _width;
-
-	void set(int row, int col) { _canvas[row][col] = 1; }
-	void unset(int row, int col) { _canvas[row][col] = 0; }
-	void setAll(int value = 1) {
-		for (auto& row : _canvas)
-			for (auto& cell : row)
-				cell = value;
-	}
-
-	void setTopLeftCorner(bool value = true) { _canvas.front().front() = value; }
-	void setTopRightCorner(bool value = true) { _canvas.front().back() = value; }
-	void setTottomLeftCorner(bool value = true) { _canvas.back().front() = value; }
-	void setTottomRightCorner(bool value = true) { _canvas.back().back() = value; }
+	shared_ptr<Canvas> _canvas;
 };

@@ -142,13 +142,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="block.h" />
+    <ClCompile Include="Block.h" />
+    <ClCompile Include="Bulge.cpp" />
+    <ClCompile Include="JShape.cpp" />
+    <ClCompile Include="LShape.cpp" />
     <ClCompile Include="program.cpp" />
+    <ClCompile Include="Shape.cpp" />
+    <ClCompile Include="SShape.cpp" />
+    <ClCompile Include="Stick.cpp" />
+    <ClCompile Include="ZShape.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="board.h" />
-    <ClInclude Include="shape.h" />
-    <ClInclude Include="tetris.h" />
+    <ClInclude Include="AllShapes.h" />
+    <ClInclude Include="Board.h" />
+    <ClInclude Include="Bulge.h" />
+    <ClInclude Include="JShape.h" />
+    <ClInclude Include="LShape.h" />
+    <ClInclude Include="Shape.h" />
+    <ClInclude Include="Square.h" />
+    <ClInclude Include="SShape.h" />
+    <ClInclude Include="Stick.h" />
+    <ClInclude Include="Tetris.h" />
+    <ClInclude Include="ZShape.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
