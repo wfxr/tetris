@@ -6,10 +6,13 @@
 #include <cctype>
 #include <memory>
 #include <iostream>
+#include <thread>
 
 #include "Block.h"
 #include "Board.h"
+#include "ConsoleUtility.h"
 
+using std::this_thread::sleep_for;
 using std::shared_ptr;
 using std::make_shared;
 using std::toupper;
@@ -25,76 +28,119 @@ using namespace std::chrono_literals;
 class Tetris {
 private:
 	Board _board;
-	shared_ptr<Block> _currBlock;
+	shared_ptr<Block> _curr;
 	system_clock::time_point time;
 	static const int BlockShapesCount = static_cast<int>(ShapeCategory::Count);
 
-	static Board intersection(const Board& board, const Block& block) {
-		auto ret = board;
-		for (int h = 0; h < block.width(); ++h) {
-			for (int v = 0; v < block.height(); ++v)
-				if (block.get(v, h))
-					ret.set(block.posV() + v, block.posH() + h);
-		}
-		return ret;
-	}
-
-	bool isOverlap() const {
-		for (int h = 0; h < _currBlock->width(); ++h) {
-			for (int v = 0; v < _currBlock->height(); ++v)
-				if (_currBlock->get(v, h) && _board.get(v + _currBlock->posV(), h + _currBlock->posH()))
+	bool isOverlap() const { return isOverlap(*_curr); }
+	bool isOverlap(const Block& block) const {
+		for (int h = block.left(); h < block.right(); ++h)
+			for (int v = block.top(); v < block.bottom(); ++v)
+				if (block.at(h, v) && _board.at(h, v))
 					return true;
-		}
 		return false;
 	}
 
-	bool topOversetp() const { return _currBlock->posV() < 0; }
-	bool leftOverstep() const { return _currBlock->posH() < 0; }
-	bool bottomOverstep() const { return _currBlock->posV() + _currBlock->height() > _board.height(); }
-	bool rightOverstep() const { return _currBlock->posH() + _currBlock->width() > _board.width(); }
+	bool reachLeftBorder() const { return _curr->left() == 0; }
+	bool reachRightBorder() const { return _curr->right() == _board.width(); }
+	bool reachBottomBorder() const { return _curr->bottom() == _board.height(); }
 
-	void rotate() { 
-		_currBlock->rotate();
-		if (bottomOverstep() || rightOverstep() || leftOverstep() || isOverlap())
-			_currBlock->contrarotate();
-		repaint();
+	void stackBlock() { 
+		for (int h = _curr->left(); h < _curr->right(); ++h)
+			for (int v = _curr->top(); v < _curr->bottom(); ++v)
+				if (_curr->at(h, v)) _board.set(h, v);
 	}
 
-	void stackBlock() { _board = intersection(_board, *_currBlock); }
+	bool rotate() { 
+		if (!canRotate()) return false;
+
+		erase();
+		_curr->rotate();
+		repaint();
+		return true;
+	}
+
+	bool canRotate() {
+		Block block(*_curr);
+		block.rotate();
+
+		if (block.right() > _board.width() || block.bottom() > _board.height())
+			return false;
+
+		return !isOverlap(block);
+	}
+
+	bool canShiftLeft() {
+		if (reachLeftBorder())
+			return false;
+		for (int h = _curr->left(); h < _curr->right(); ++h)
+			for (int v = _curr->top(); v < _curr->bottom(); ++v)
+				if (_curr->at(h, v) && _board.at(h - 1, v))
+					return false;
+		return true;
+	}
+
+	bool canShiftRight() {
+		if (reachRightBorder())
+			return false;
+		for (int h = _curr->left(); h < _curr->right(); ++h)
+			for (int v = _curr->top(); v < _curr->bottom(); ++v)
+				if (_curr->at(h, v) && _board.at(h + 1, v))
+					return false;
+		return true;
+	}
+
+	bool canShiftDown() {
+		if (reachBottomBorder())
+			return false;
+		for (int h = _curr->left(); h < _curr->right(); ++h)
+			for (int v = _curr->top(); v < _curr->bottom(); ++v)
+				if (_curr->at(h, v) && _board.at(h, v + 1))
+					return false;
+		return true;
+	}
 
 	bool shiftDown() { 
-		_currBlock->shiftDown();
-		if (bottomOverstep() || isOverlap()) {
-			_currBlock->shiftUp();
-			return false;
-		}
+		if (!canShiftDown()) return false;
+
+		erase();
+		_curr->shiftDown();
 		repaint();
 		return true;
 	}
 
 	bool shiftLeft() {
-		_currBlock->shiftLeft();
-		if (leftOverstep() || isOverlap()) {
-			_currBlock->shiftRight();
-			return false;
-		}
+		if (!canShiftLeft()) return false;
+
+		erase();
+		_curr->shiftLeft();
 		repaint();
 		return true;
 	}
 
 	bool shiftRight() {
-		_currBlock->shiftRight();
-		if (rightOverstep() || isOverlap()) {
-			_currBlock->shiftLeft();
-			return false;
-		}
+		if (!canShiftRight()) return false;
+
+		erase();
+		_curr->shiftRight();
 		repaint();
 		return true;
 	}
 
-	void repaint() const {
-		auto board = intersection(_board, *_currBlock);
-		board.paint();
+	void erase() const {
+		repaint("  ");
+	}
+
+	void repaint(char* brush = "¨~") const {
+		for (int v = _curr->top(); v < _curr->bottom(); ++v) {
+			CursorGoto(1 + _curr->left() * 2, 1 + v);
+			for (int h = _curr->left(); h < _curr->right(); ++h) {
+				if (_curr->at(h, v))
+					cout << brush;
+				else
+					CursorRight(2);
+			}
+		}
 	}
 
 	shared_ptr<Block> randomBlock() {
@@ -129,6 +175,7 @@ private:
 					break;
 				}
 			}
+			sleep_for(50ms);
 		}
 	}
 
@@ -136,15 +183,19 @@ private:
 
 	int eliminateBlocks() {
 		auto rows = _board.eliminateRows();
-		repaint();
+		if (rows)
+			_board.paint();
 		return rows * rows;
 	}
 public:
-	Tetris(int row = 20, int col = 10) : _board(row, col), _currBlock(randomBlock()) { }
+	Tetris(int row = 20, int col = 10) : _board(row, col), _curr(randomBlock()) {
+		HideCursor();
+	}
 
 	void run() {
-		time = system_clock::now();
+		_board.paint();
 
+		time = system_clock::now();
 		while (!isGameOver()) {
 			repaint();
 			do {
@@ -152,7 +203,7 @@ public:
 			} while (shiftDown());
 			stackBlock();
 			eliminateBlocks();
-			_currBlock = randomBlock();
+			_curr = randomBlock();
 		}
 	}
 };

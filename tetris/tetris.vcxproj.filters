@@ -83,5 +83,8 @@
     <ClInclude Include="Stick.h">
       <Filter>Header Files\shapes</Filter>
     </ClInclude>
+    <ClInclude Include="ConsoleUtility.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

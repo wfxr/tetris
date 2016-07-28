@@ -11,12 +11,14 @@ using std::make_shared;
 
 class Block {
 private:
-	int _posV;
-	int _posH;
+	int _v;
+	int _h;
 	shared_ptr<Shape> _shape;
 public:
-	Block(shared_ptr<Shape> shape, int posH = 0, int posV = 0) : 
-		_posH(posH), _posV(posV), _shape(shape) { }
+	Block(shared_ptr<Shape> shape, int h = 0, int v = 0) : 
+		_h(h), _v(v), _shape(shape) { }
+	Block(const Block& block) :
+		_h(block._h), _v(block._v) , _shape(make_shared<Shape>(*block._shape)) { }
 
 	static shared_ptr<Block> CreateBlock(ShapeCategory type, int posH = 0, int posV = 0, int form = 0) {
 		switch (type) {
@@ -41,15 +43,18 @@ public:
 
 	int width() const { return _shape->width(); }
 	int height() const { return _shape->height(); }
-	int posH() const { return _posH; }
-	int posH(int h) { _posH = h; }
-	int posV() const { return _posV; }
-	int posV(int v) { _posV = v; }
-	void shiftUp() { --_posV; }
-	void shiftDown() { ++_posV; }
-	void shiftLeft() { --_posH; }
-	void shiftRight() { ++_posH; }
+
+	int left() const { return _h; }
+	int top() const { return _v; }
+	int right() const { return _h + width(); }
+	int bottom() const { return _v + height(); }
+
+	void shiftUp() { --_v; }
+	void shiftDown() { ++_v; }
+	void shiftLeft() { --_h; }
+	void shiftRight() { ++_h; }
 	void rotate() { _shape->rotate(); }
 	void contrarotate() { _shape->contrarotate(); }
-	int get(int row, int col) const { return _shape->get(row, col); }
+
+	int at(int h, int v) const { return _shape->at(h - left(), v - top()); }
 };

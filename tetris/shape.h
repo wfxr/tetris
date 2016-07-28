@@ -15,9 +15,11 @@ public:
 	using Canvas = vector<vector<int>>;
 public:
 	Shape(int height, int width);
+	Shape(const Shape& shape) : _canvas(make_shared<Canvas>(*shape._canvas)) { }
+
 	int width() const;
 	int height() const;
-	int get(int row, int col) const;
+	int at(int h, int v) const;
 
 	void rotate() { nextForm(); }
 	void contrarotate() { prevForm(); }
@@ -25,8 +27,6 @@ public:
 protected:
 	Shape();
 	void setCanvas(shared_ptr<Canvas> canvas);
-	void set(int row, int col);
-	void unset(int row, int col);
 	void setAll(int value = 1);
 	void setTopLeftCorner(int value = 1);
 	void setTopRightCorner(int value = 1);

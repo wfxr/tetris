@@ -14,8 +14,8 @@ public:
 	Board(int row = 20, int col = 10) 
 		: _row(row), _col(col), _board(row, vector<int>(col)) { }
 
-	void set(int row, int col, int value = 1) { _board[row][col] = value; }
-	int get(int row, int col) const { return _board[row][col]; }
+	void set(int h, int v, int value = 1) { _board[v][h] = value; }
+	int at(int h, int v) const { return _board[v][h]; }
 
 	int height() const { return _row; }
 	int width() const { return _col; }

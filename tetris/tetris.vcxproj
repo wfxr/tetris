@@ -156,6 +156,7 @@
     <ClInclude Include="AllShapes.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="Bulge.h" />
+    <ClInclude Include="ConsoleUtility.h" />
     <ClInclude Include="JShape.h" />
     <ClInclude Include="LShape.h" />
     <ClInclude Include="Shape.h" />
