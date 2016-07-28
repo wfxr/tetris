@@ -15,7 +15,8 @@ public:
 	using Canvas = vector<vector<int>>;
 public:
 	Shape(int height, int width);
-	Shape(const Shape& shape) : _canvas(make_shared<Canvas>(*shape._canvas)) { }
+	Shape(const Shape& shape) 
+		: _canvas(make_shared<Canvas>(*shape._canvas)), _currentForm(shape._currentForm) { }
 
 	int width() const;
 	int height() const;
@@ -24,23 +25,21 @@ public:
 	void rotate() { nextForm(); }
 	void contrarotate() { prevForm(); }
 
+	virtual shared_ptr<Shape> clone() const { return make_shared<Shape>(*this); }
+
 protected:
 	Shape();
 	void setCanvas(shared_ptr<Canvas> canvas);
 	void setAll(int value = 1);
-	void setTopLeftCorner(int value = 1);
-	void setTopRightCorner(int value = 1);
-	void setTottomLeftCorner(int value = 1);
-	void setTottomRightCorner(int value = 1);
 
-	virtual int getFormCount() { return 1; }
+	virtual int formCount() { return 1; }
 	virtual shared_ptr<Canvas> currentCanvas() { return _canvas; }
 
-	void updateForm() { setCanvas(currentCanvas()); }
+	virtual void updateForm() {}
 
 	void nextForm() {
 		++_currentForm;
-		if (_currentForm == getFormCount())
+		if (_currentForm == formCount())
 			_currentForm = 0;
 		updateForm();
 	}
@@ -48,11 +47,11 @@ protected:
 	void prevForm() {
 		--_currentForm;
 		if (_currentForm == -1)
-			_currentForm = getFormCount() - 1;
+			_currentForm = formCount() - 1;
 		updateForm();
 	}
 
+protected:
 	int _currentForm = 0;
-private:
 	shared_ptr<Canvas> _canvas;
 };

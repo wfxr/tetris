@@ -9,10 +9,19 @@ using std::make_shared;
 
 class ZShape : public Shape {
 public:
-	ZShape() { updateForm(); }
+	ZShape(int form = 0) {
+		_currentForm = form % formCount();
+		setCanvas(Forms[_currentForm]);
+	}
 
-	virtual int getFormCount() override { return FormsCount; }
-	virtual shared_ptr<Canvas> currentCanvas() override { return Forms[_currentForm]; }
+	virtual int formCount() override { return FormsCount; }
+	virtual	void updateForm() override { setCanvas(Forms[_currentForm]); }
+	virtual shared_ptr<Shape> clone() const {
+		auto ret = make_shared<ZShape>();
+		ret->_currentForm = _currentForm;
+		ret->_canvas = make_shared<Canvas>(*_canvas);
+		return ret;
+	}
 private:
 	static const int FormsCount = 2;
 	static const shared_ptr<Canvas> Forms[FormsCount];

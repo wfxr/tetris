@@ -4,5 +4,5 @@
 
 class Square : public Shape {
 public:
-	Square(int a = 2) : Shape(2, 2) { setAll(); }
+	Square(int form = 0) : Shape(2, 2) { setAll(); }
 };

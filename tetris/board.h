@@ -41,30 +41,10 @@ public:
 		return eliminated;
 	}
 
-	void paint() {
-		system("cls");
-		cout << "©°";
-		for (int c = 0; c < _col; ++c)
-			cout << "©¤©¤";
-		cout << "©´" << endl;
-		for (int r = 0; r < _row; ++r) {
-			cout << "©¦";
-			for (int c = 0; c < _col; ++c)
-				if (_board[r][c])
-					cout << "¨~";
-				else
-					cout << "  ";
-			cout << "©¦" << endl;
-		}
-
-		cout << "©¸";
-		for (int c = 0; c < _col; ++c)
-			cout << "©¤©¤";
-		cout << "©¼" << endl;
-	}
-
+	int thickness() const { return _thickness; }
 private:
 	int _row;
 	int _col;
+	int _thickness = 1;
 	vector<vector<int>> _board;
 };

@@ -1,10 +1,15 @@
 #pragma once
 
 #include <windows.h>
+#include "Position.h"
 
-void CursorGoto(int x, int y) {
+void CursorGoto(COORD pos) {
 	static HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleCursorPosition(output, { (short)x, (short)y });
+	SetConsoleCursorPosition(output, pos);
+}
+
+void CursorGoto(Position pos) {
+	CursorGoto(COORD{ (short)pos.X, (short)pos.Y });
 }
 
 COORD CursorPos() {
@@ -14,9 +19,10 @@ COORD CursorPos() {
 	return info.dwCursorPosition;
 }
 
-void CursorRight(int dx) {
+void CursorRight(int dx = 1) {
 	auto pos = CursorPos();
-	CursorGoto(pos.X + dx, pos.Y);
+	pos.X += dx;
+	CursorGoto(pos);
 }
 
 void HideCursor() {

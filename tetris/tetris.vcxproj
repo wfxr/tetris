@@ -150,6 +150,7 @@
     <ClCompile Include="Shape.cpp" />
     <ClCompile Include="SShape.cpp" />
     <ClCompile Include="Stick.cpp" />
+    <ClCompile Include="Tetris.cpp" />
     <ClCompile Include="ZShape.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -157,6 +158,7 @@
     <ClInclude Include="Board.h" />
     <ClInclude Include="Bulge.h" />
     <ClInclude Include="ConsoleUtility.h" />
+    <ClInclude Include="Position.h" />
     <ClInclude Include="JShape.h" />
     <ClInclude Include="LShape.h" />
     <ClInclude Include="Shape.h" />

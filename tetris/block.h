@@ -18,26 +18,26 @@ public:
 	Block(shared_ptr<Shape> shape, int h = 0, int v = 0) : 
 		_h(h), _v(v), _shape(shape) { }
 	Block(const Block& block) :
-		_h(block._h), _v(block._v) , _shape(make_shared<Shape>(*block._shape)) { }
+		_h(block._h), _v(block._v) , _shape(block._shape->clone()) { }
 
 	static shared_ptr<Block> CreateBlock(ShapeCategory type, int posH = 0, int posV = 0, int form = 0) {
 		switch (type) {
 		case ShapeCategory::Square:
-				return make_shared<Block>(make_shared<Square>(), posH, posV);
+				return make_shared<Block>(make_shared<Square>(form), posH, posV);
 		case ShapeCategory::Stick:
-				return make_shared<Block>(make_shared<Stick>(), posH, posV);
+				return make_shared<Block>(make_shared<Stick>(form), posH, posV);
 		case ShapeCategory::Bulge:
-				return make_shared<Block>(make_shared<Bulge>(), posH, posV);
+				return make_shared<Block>(make_shared<Bulge>(form), posH, posV);
 		case ShapeCategory::LShape:
-				return make_shared<Block>(make_shared<LShape>(), posH, posV);
+				return make_shared<Block>(make_shared<LShape>(form), posH, posV);
 		case ShapeCategory::JShape:
-				return make_shared<Block>(make_shared<JShape>(), posH, posV);
+				return make_shared<Block>(make_shared<JShape>(form), posH, posV);
 		case ShapeCategory::ZShape:
-				return make_shared<Block>(make_shared<ZShape>(), posH, posV);
+				return make_shared<Block>(make_shared<ZShape>(form), posH, posV);
 		case ShapeCategory::SShape:
-				return make_shared<Block>(make_shared<SShape>(), posH, posV);
+				return make_shared<Block>(make_shared<SShape>(form), posH, posV);
 		default:
-				return make_shared<Block>(make_shared<Square>(), posH, posV);
+				return make_shared<Block>(make_shared<Square>(form), posH, posV);
 		}
 	}
 
@@ -57,4 +57,8 @@ public:
 	void contrarotate() { _shape->contrarotate(); }
 
 	int at(int h, int v) const { return _shape->at(h - left(), v - top()); }
+	void setPosition(int x, int y) { 
+		_h = x;
+		_v = y;
+	}
 };
