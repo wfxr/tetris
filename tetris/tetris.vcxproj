@@ -144,9 +144,10 @@
   <ItemGroup>
     <ClCompile Include="Block.h" />
     <ClCompile Include="Bulge.cpp" />
+    <ClCompile Include="ConsoleUtility.cpp" />
     <ClCompile Include="JShape.cpp" />
     <ClCompile Include="LShape.cpp" />
-    <ClCompile Include="program.cpp" />
+    <ClCompile Include="Program.cpp" />
     <ClCompile Include="Shape.cpp" />
     <ClCompile Include="SShape.cpp" />
     <ClCompile Include="Stick.cpp" />

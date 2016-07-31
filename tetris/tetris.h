@@ -3,7 +3,6 @@
 #include <thread>
 #include <chrono>
 #include <conio.h>
-#include <random>
 #include <cctype>
 #include <memory>
 #include <iostream>
@@ -19,9 +18,6 @@ using std::this_thread::sleep_for;
 using std::shared_ptr;
 using std::make_shared;
 using std::toupper;
-using std::mt19937;
-using std::random_device;
-using std::uniform_int_distribution;
 using std::chrono::milliseconds;
 using std::chrono::system_clock;
 using std::cout;
@@ -31,78 +27,83 @@ using namespace std::literals::chrono_literals;
 
 class Tetris {
 private:
-	Board _mainBoard;
-	Board _previewBoard;
 	shared_ptr<Block> _curr;
 	shared_ptr<Block> _next;
+
+	Board _mainBoard;
 	Position _mainBoardPos;
+	Position _mainBoardTitlePos;
+	const string _mainBoardTitle = "Tetris v1.0";
+
+	Board _previewBoard;
 	Position _previewBoardPos;
-	int speed = 2;
-	static const int BlockShapesCount = static_cast<int>(ShapeCategory::Count);
+	Position _previewBoardTitlePos;
+	const string _previewBoardTitle = "Next Block";
 
-	milliseconds operationTime();
-	bool isOverlap() const;
-	bool isOverlap(shared_ptr<Block> block) const;
+	const int MaxLevel = 10;
 
+	int _level = 1;
+	int _score = 0;
+	int _combo = 0;
+	Position _speedPos;
+	Position _scorePos;
+	Position _comboPos;
+
+	milliseconds operationTime() const;
+	int score(int rows);
+	string levelText() const;
+	string scoreText() const;
+	string comboText() const;
+
+	bool gameOver() const;
+	bool overlap() const;
 	bool reachLeftBorder() const;
 	bool reachRightBorder() const;
 	bool reachBottomBorder() const;
 
-	void stackBlock();
-	bool canRotate();
-	bool canShiftLeft();
-	bool canShiftRight();
-	bool canShiftDown();
+	bool canRotate() const;
+	bool canShiftLeft() const;
+	bool canShiftRight() const;
+	bool canShiftDown() const;
 
 	bool rotate();
 	bool shiftDown();
 	bool shiftLeft();
 	bool shiftRight();
 
-	static void paintBoard(const Board& board, Position pos = Position(), const string& brush = "¨~");
-	static void paintBlock(const Board& board, Position boardPos, shared_ptr<Block> block, const string& brush = "¨~");
-	static int realWidth(const Board& board);
+	static int RealWidth(const Board& board);
+	static int RealHeight(const Board& board);
+	static bool IsOverlap(const Board& board, shared_ptr<Block> block);
+	static void PaintBoard(const Board& board, Position pos = Position(), const string& brush = "¨~");
+	static void PaintBlock(const Board& board, Position boardPos, shared_ptr<Block> block, const string& brush = "¨~");
 	static void HorizontalCenterBlock(const Board& board, Position boardPos, Block& block);
 	static void VerticalCenterBlock(const Board& board, Position boardPos, Block& block);
+	static void PaintText(Position pos, const string& text);
+	static Position TopCenterPosition(const Board& board, Position boardPos, int objectWidth);
+	static Position BottomLeftPosition(const Board& board, Position boardPos);
+	static Position BottomCenterPosition(const Board& board, Position boardPos, int objectWidth);
 
-	void eraseCurrentBlock();
-	void paintCurrentBlock(const string& brush="¨~");
+	void eraseCurrentBlock() const;
+	void earseNextBlock() const;
+	void paintCurrentBlock(const string& brush = "¨~") const;
+	void paintNextBlock(const string& brush = "¨~") const;
+	void paintMainBoard() const;
+	void paintPreviewBoard() const;
 
-	void paintNextBlock(const string& brush = "¨~");
-	void earseNextBlock();
-
-	void paintMainBoard();
-	void paintPreviewBoard();
-
-
-	shared_ptr<Block> randomBlock();
+	void eliminateBlocks();
+	void levelUp();
 	void readOpeartion();
-	bool gameOver();
-	int eliminateBlocks();
-
 	void TopCenterCurrentBlock();
 	void centerNextBlock();
 	void fetchNextBlock();
+	void stackBlock();
+
+	void showMainTitle() const ;
+	void showPreviewBoardTitle() const;
+	void showLevel() const;
+	void showScore() const;
+	void showCombo() const;
 public:
 	Tetris(int row = 20, int col = 10);
-
-	void run() {
-		paintMainBoard();
-		paintPreviewBoard();
-		fetchNextBlock();
-		paintCurrentBlock();
-		paintNextBlock();
-
-		do {
-			do {
-				readOpeartion();
-			} while (shiftDown());
-			stackBlock();
-			eliminateBlocks();
-			fetchNextBlock();
-			paintCurrentBlock();
-			paintNextBlock();
-		} while (!gameOver());
-		paintCurrentBlock();
-	}
+	void run();
 };

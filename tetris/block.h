@@ -2,12 +2,16 @@
 
 #include <vector>
 #include <memory>
+#include <random>
 
 #include "AllShapes.h"
 
 using std::vector;
 using std::shared_ptr;
 using std::make_shared;
+using std::mt19937;
+using std::random_device;
+using std::uniform_int_distribution;
 
 class Block {
 private:
@@ -15,6 +19,8 @@ private:
 	int _h;
 	shared_ptr<Shape> _shape;
 public:
+	static const int ShapesCount = static_cast<int>(ShapeCategory::Count);
+
 	Block(shared_ptr<Shape> shape, int h = 0, int v = 0) : 
 		_h(h), _v(v), _shape(shape) { }
 	Block(const Block& block) :
@@ -39,6 +45,17 @@ public:
 		default:
 				return make_shared<Block>(make_shared<Square>(form), posH, posV);
 		}
+	}
+
+	static shared_ptr<Block> RandomBlock() {
+		random_device rd;
+		mt19937 gen(rd());
+		uniform_int_distribution<> typeRand(0, ShapesCount - 1);
+		uniform_int_distribution<> formRand;
+
+		auto type = static_cast<ShapeCategory>(typeRand(gen));
+		auto form = formRand(gen);
+		return Block::CreateBlock(type, 0, 0, form);
 	}
 
 	int width() const { return _shape->width(); }
