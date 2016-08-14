@@ -1,7 +1,3 @@
-#include <iostream>
-
-#include "block.h"
-#include "board.h"
 #include "tetris.h"
 
 int main() {
