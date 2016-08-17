@@ -100,7 +100,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -132,7 +132,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -142,32 +142,38 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Block.h" />
-    <ClCompile Include="Bulge.cpp" />
-    <ClCompile Include="ConsoleUtility.cpp" />
-    <ClCompile Include="JShape.cpp" />
-    <ClCompile Include="LShape.cpp" />
-    <ClCompile Include="Program.cpp" />
-    <ClCompile Include="Shape.cpp" />
-    <ClCompile Include="SShape.cpp" />
-    <ClCompile Include="Stick.cpp" />
-    <ClCompile Include="Tetris.cpp" />
-    <ClCompile Include="ZShape.cpp" />
+    <ClCompile Include="console\ConsoleTetris.cpp" />
+    <ClCompile Include="console\ConsoleUtility.cpp" />
+    <ClCompile Include="console\main.cpp" />
+    <ClCompile Include="core\shape\Bulge.cpp" />
+    <ClCompile Include="core\shape\JShape.cpp" />
+    <ClCompile Include="core\shape\LShape.cpp" />
+    <ClCompile Include="core\shape\Shape.cpp" />
+    <ClCompile Include="core\shape\SShape.cpp" />
+    <ClCompile Include="core\shape\Stick.cpp" />
+    <ClCompile Include="core\shape\ZShape.cpp" />
+    <ClCompile Include="core\Subject.cpp" />
+    <ClCompile Include="core\Tetris.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AllShapes.h" />
-    <ClInclude Include="Board.h" />
-    <ClInclude Include="Bulge.h" />
-    <ClInclude Include="ConsoleUtility.h" />
-    <ClInclude Include="Position.h" />
-    <ClInclude Include="JShape.h" />
-    <ClInclude Include="LShape.h" />
-    <ClInclude Include="Shape.h" />
-    <ClInclude Include="Square.h" />
-    <ClInclude Include="SShape.h" />
-    <ClInclude Include="Stick.h" />
-    <ClInclude Include="Tetris.h" />
-    <ClInclude Include="ZShape.h" />
+    <ClInclude Include="console\ConsoleTetris.h" />
+    <ClInclude Include="console\ConsoleUtility.h" />
+    <ClInclude Include="core\Block.h" />
+    <ClInclude Include="core\Board.h" />
+    <ClInclude Include="core\Border.h" />
+    <ClInclude Include="core\Observer.h" />
+    <ClInclude Include="core\Position.h" />
+    <ClInclude Include="core\shape\AllShapes.h" />
+    <ClInclude Include="core\shape\Bulge.h" />
+    <ClInclude Include="core\shape\JShape.h" />
+    <ClInclude Include="core\shape\LShape.h" />
+    <ClInclude Include="core\shape\Shape.h" />
+    <ClInclude Include="core\shape\Square.h" />
+    <ClInclude Include="core\shape\SShape.h" />
+    <ClInclude Include="core\shape\Stick.h" />
+    <ClInclude Include="core\shape\ZShape.h" />
+    <ClInclude Include="core\Subject.h" />
+    <ClInclude Include="core\Tetris.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

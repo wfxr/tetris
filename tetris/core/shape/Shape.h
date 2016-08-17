@@ -13,7 +13,7 @@ class Stick;
 class Shape {
 public:
 	using Canvas = vector<vector<int>>;
-public:
+
 	Shape(int height, int width);
 	Shape(const Shape& shape) 
 		: _canvas(make_shared<Canvas>(*shape._canvas)), _currentForm(shape._currentForm) { }
@@ -51,7 +51,6 @@ protected:
 		updateForm();
 	}
 
-protected:
 	int _currentForm = 0;
 	shared_ptr<Canvas> _canvas;
 };

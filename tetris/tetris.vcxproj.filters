@@ -13,87 +13,117 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\shapes">
+    <Filter Include="Header Files\core">
+      <UniqueIdentifier>{7b4f8a75-56cf-422d-90aa-f60ab88dacb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\core\shapes">
       <UniqueIdentifier>{5461751f-14a3-43e0-8d00-4e8300867bc9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\shapes">
+    <Filter Include="Header Files\console">
+      <UniqueIdentifier>{0163ec43-d5f9-4069-bb3c-8110d427cb58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\core">
+      <UniqueIdentifier>{8d5446a3-e1f7-4a6f-8e8c-471844d8fb94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\core\shapes">
       <UniqueIdentifier>{3980b738-5396-4993-b1e3-5ea0701366f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\console">
+      <UniqueIdentifier>{03e80822-65bf-4a75-9e49-c327062919b3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Block.h">
-      <Filter>Header Files</Filter>
+    <ClCompile Include="console\ConsoleTetris.cpp">
+      <Filter>Source Files\console</Filter>
     </ClCompile>
-    <ClCompile Include="LShape.cpp">
-      <Filter>Source Files\shapes</Filter>
+    <ClCompile Include="console\ConsoleUtility.cpp">
+      <Filter>Source Files\console</Filter>
     </ClCompile>
-    <ClCompile Include="ZShape.cpp">
-      <Filter>Source Files\shapes</Filter>
+    <ClCompile Include="console\main.cpp">
+      <Filter>Source Files\console</Filter>
     </ClCompile>
-    <ClCompile Include="Shape.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="core\shape\Bulge.cpp">
+      <Filter>Source Files\core\shapes</Filter>
     </ClCompile>
-    <ClCompile Include="SShape.cpp">
-      <Filter>Source Files\shapes</Filter>
+    <ClCompile Include="core\shape\JShape.cpp">
+      <Filter>Source Files\core\shapes</Filter>
     </ClCompile>
-    <ClCompile Include="JShape.cpp">
-      <Filter>Source Files\shapes</Filter>
+    <ClCompile Include="core\shape\LShape.cpp">
+      <Filter>Source Files\core\shapes</Filter>
     </ClCompile>
-    <ClCompile Include="Bulge.cpp">
-      <Filter>Source Files\shapes</Filter>
+    <ClCompile Include="core\shape\Shape.cpp">
+      <Filter>Source Files\core\shapes</Filter>
     </ClCompile>
-    <ClCompile Include="Stick.cpp">
-      <Filter>Source Files\shapes</Filter>
+    <ClCompile Include="core\shape\SShape.cpp">
+      <Filter>Source Files\core\shapes</Filter>
     </ClCompile>
-    <ClCompile Include="Tetris.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="core\shape\Stick.cpp">
+      <Filter>Source Files\core\shapes</Filter>
     </ClCompile>
-    <ClCompile Include="ConsoleUtility.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="core\shape\ZShape.cpp">
+      <Filter>Source Files\core\shapes</Filter>
     </ClCompile>
-    <ClCompile Include="Program.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="core\Subject.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\Tetris.cpp">
+      <Filter>Source Files\core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Board.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="console\ConsoleTetris.h">
+      <Filter>Header Files\console</Filter>
     </ClInclude>
-    <ClInclude Include="Tetris.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="console\ConsoleUtility.h">
+      <Filter>Header Files\console</Filter>
     </ClInclude>
-    <ClInclude Include="LShape.h">
-      <Filter>Header Files\shapes</Filter>
+    <ClInclude Include="core\shape\AllShapes.h">
+      <Filter>Header Files\core\shapes</Filter>
     </ClInclude>
-    <ClInclude Include="AllShapes.h">
-      <Filter>Header Files\shapes</Filter>
+    <ClInclude Include="core\shape\Bulge.h">
+      <Filter>Header Files\core\shapes</Filter>
     </ClInclude>
-    <ClInclude Include="ZShape.h">
-      <Filter>Header Files\shapes</Filter>
+    <ClInclude Include="core\shape\JShape.h">
+      <Filter>Header Files\core\shapes</Filter>
     </ClInclude>
-    <ClInclude Include="JShape.h">
-      <Filter>Header Files\shapes</Filter>
+    <ClInclude Include="core\shape\LShape.h">
+      <Filter>Header Files\core\shapes</Filter>
     </ClInclude>
-    <ClInclude Include="SShape.h">
-      <Filter>Header Files\shapes</Filter>
+    <ClInclude Include="core\shape\Shape.h">
+      <Filter>Header Files\core\shapes</Filter>
     </ClInclude>
-    <ClInclude Include="Shape.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="core\shape\Square.h">
+      <Filter>Header Files\core\shapes</Filter>
     </ClInclude>
-    <ClInclude Include="Bulge.h">
-      <Filter>Header Files\shapes</Filter>
+    <ClInclude Include="core\shape\SShape.h">
+      <Filter>Header Files\core\shapes</Filter>
     </ClInclude>
-    <ClInclude Include="Square.h">
-      <Filter>Header Files\shapes</Filter>
+    <ClInclude Include="core\shape\Stick.h">
+      <Filter>Header Files\core\shapes</Filter>
     </ClInclude>
-    <ClInclude Include="Stick.h">
-      <Filter>Header Files\shapes</Filter>
+    <ClInclude Include="core\shape\ZShape.h">
+      <Filter>Header Files\core\shapes</Filter>
     </ClInclude>
-    <ClInclude Include="ConsoleUtility.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="core\Block.h">
+      <Filter>Header Files\core</Filter>
     </ClInclude>
-    <ClInclude Include="Position.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="core\Board.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Border.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Observer.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Position.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Subject.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Tetris.h">
+      <Filter>Header Files\core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
